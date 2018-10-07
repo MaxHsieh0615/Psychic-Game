@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Psychic Game</title>
+</head>
+
+<body>
+
+    <h1>The Psychic Game</h1>
+
+    <br>
+    <h3>Guess what letter I am thinking of</h3>
+    <br>
+    <p>Wins:</p>
+    <p id="wins-text"></p>
+    <p>Loses: </p>
+    <p id="loses-text"></p>
+    <p>Guesses Left: </p>
+    <p id="guessesleft-text"></p>
+    <p>Wrong Letters: </p>
+    <p id="wrong-letter"></p>
+
+
+    <script type="text/javascript">
+
+
+        var letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+        var selectedLetter = [];
+        var wins = 0;
+        var loses = 0;
+        var guessesLeft = 10;
+        var wrongLetter = [];
+        var userGuess = "";
+
+
+/// functions-----------------------------------------------------------------
+
+        function startGame() {
+            //restart
+            selectedLetter = letters[Math.floor(Math.random() * letters.length)];
+            console.log(selectedLetter);
+
+             guessesLeft = 10;
+             wrongLetter = [];
+
+            document.getElementById("guessesleft-text").innerHTML = guessesLeft;
+            document.getElementById("wins-text").innerHTML = wins;
+            document.getElementById("loses-text").innerHTML = loses;
+            document.getElementById("wrong-letter").innerHTML = wrongLetter;
+        }
+
+        function noRepeat(letter){
+            var isLetterInThere = false;
+            for (var i = 0; i < letters.length; i++){
+                if(selectedLetter[i] == letter){
+                    isLetterInThere = true;
+                }
+            }
+        }
+    
+
+        function complete(){
+            console.log("Win Count: " + wins + "| Loss Count: " + loses + "| Guesses Left: " + guessesLeft);
+
+            document.getElementById("guessesleft-text").innerHTML = guessesLeft;
+
+
+            if (selectedLetter.toString() == userGuess.toString()){
+                wins++;
+                alert("You won!");
+                
+                document.getElementById("wins-text").innerHTML = wins;
+                
+                startGame();
+            }
+
+            else if (guessesLeft === 0){
+                loses++;
+                alert("You lost!");
+
+                document.getElementById("loses-text").innerHTML = loses;
+                
+                startGame();
+            }
+        }
+///Main process-----------------------------------------------------------------
+    startGame();
+
+
+
+document.onkeyup = function(event){
+    userGuess = String.fromCharCode(event.keyCode).toLocaleLowerCase();
+    document.getElementById("wrong-letter").innerHTML += userGuess;
+
+    noRepeat(userGuess);
+    if (userGuess !== selectedLetter){
+        guessesLeft--;
+    }
+    complete();
+    console.log(userGuess);
+
+}
+
+
+    </script>
+
+</body>
+
+</html>
